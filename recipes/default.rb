@@ -58,7 +58,15 @@ ruby_block "compile QEMU SystemC" do
   end
 end
 
-
+bash "Get Sample Linux Image" do
+  code <<-EOH
+    cd #{node[:prefix]}/ModelLibrary/greensocs/bin
+    wget http://www.greensocs.com/files/arm-images.tar.gz
+    tar -xf arm-images.tar.gz
+    rm arm-images.tar.gz
+  EOH
+  environment ({ 'http_proxy' => Chef::Config[:http_proxy] })
+end
 
 # remote_file Chef::Config[:file_cache_path]+"/greenlib-1.0.0-Source.tar.gz" do
 #   not_if {File.exists?('#{node[:prefix]}/ModelLibrary/greensocs/include')}
