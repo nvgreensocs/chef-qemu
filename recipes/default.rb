@@ -48,10 +48,8 @@ ruby_block "compile QEMU SystemC" do
        # the profile should now include SystemC export SYSTEMC_HOME=/usr/local/systemc-2.3.0
 
        cd #{node[:prefix]}/ModelLibrary/greensocs/qemu_sc.source
-       mkdir -p qemu_sc.build
-       cd qemu_sc.build
-       
-       ../configure --prefix=#{node[:prefix]}/ModelLibrary/greensocs --target-list=arm-softmmu --enable-fdt --with-greensocs=#{node[:prefix]}/ModelLibrary/greensocs --with-systemc=/usr/local/systemc-2.3.0 --with-tlm=/usr/local/systemc-2.3.0 --with-boost=/usr
+       ./configure --prefix=#{node[:prefix]}/ModelLibrary/greensocs --target-list=arm-softmmu --enable-fdt --with-greensocs=#{node[:prefix]}/ModelLibrary/greensocs --with-systemc=/usr/local/systemc-2.3.0 --with-tlm=/usr/local/systemc-2.3.0 --with-boost=/usr
+       make
        make install
      EOH
    ) { |f|  f.each_line { |line| puts line } }
