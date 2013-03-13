@@ -23,9 +23,10 @@ directory "#{node[:prefix]}/ModelLibrary/greensocs/qemu_sc" do
   recursive true
 end
 
-
 bash "Checkout QEMU SYSTEMC" do
   code <<-EOH
+  for i in #{node[:prefix]}/bash.profile.d/*; do . $i; done
+
 # need to specify branch
     git clone git://git.greensocs.com/qemu-sc.git -b new_system_c  #{node[:prefix]}/ModelLibrary/greensocs/qemu_sc.source
   EOH
@@ -35,6 +36,8 @@ end
 
 bash "Update QEMU SYSTEMC" do
   code <<-EOH
+  for i in #{node[:prefix]}/bash.profile.d/*; do . $i; done
+
     cd #{node[:prefix]}/ModelLibrary/greensocs/qemu_sc.source
     git pull origin new_system_c
   EOH
@@ -48,7 +51,7 @@ ruby_block "compile QEMU SystemC" do
        # the profile should now include SystemC export SYSTEMC_HOME=/usr/local/systemc-2.3.0
 
        cd #{node[:prefix]}/ModelLibrary/greensocs/qemu_sc.source
-       ./configure --prefix=#{node[:prefix]}/ModelLibrary/greensocs --target-list=arm-softmmu --enable-fdt --enable-debug --disable-pie --enable-sdl --with-greensocs=#{node[:prefix]}/ModelLibrary/greensocs --with-systemc=/usr/local/systemc-2.3.0 --with-tlm=/usr/local/systemc-2.3.0 --with-boost=/usr
+       ./configure --prefix=#{node[:prefix]}/ModelLibrary/greensocs --target-list=arm-softmmu --enable-fdt --enable-debug --disable-pie --enable-sdl --with-greensocs=#{node[:prefix]}/ModelLibrary/greensocs --with-systemc=$SYSTEMC_HOME --with-tlm=$SYSTEMC_HOME --with-boost=/usr
        make
        make install
      EOH
@@ -58,6 +61,8 @@ end
 
 bash "Get Sample Linux Image" do
   code <<-EOH
+  for i in #{node[:prefix]}/bash.profile.d/*; do . $i; done
+
     cd #{node[:prefix]}/ModelLibrary/greensocs/bin
     wget http://www.greensocs.com/files/arm-images.tar.gz
     tar -xf arm-images.tar.gz
@@ -65,6 +70,7 @@ bash "Get Sample Linux Image" do
   EOH
   environment ({ 'http_proxy' => Chef::Config[:http_proxy] })
 end
+
 
 # remote_file Chef::Config[:file_cache_path]+"/greenlib-1.0.0-Source.tar.gz" do
 #   not_if {File.exists?('#{node[:prefix]}/ModelLibrary/greensocs/include')}
