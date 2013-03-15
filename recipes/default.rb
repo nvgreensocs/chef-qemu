@@ -18,9 +18,15 @@
 #package "libboost-filesystem1.49-dev"
 #package "git"
 
-directory "#{node[:prefix]}/ModelLibrary/greensocs/qemu_sc" do
+base_directory = "#{node[:prefix]}/ModelLibrary/greensocs"
+
+directory "#{base_directory}/qemu_sc"  do
   action :create
   recursive true
+end
+
+directory "#{base_directory}/bin"  do
+  action :create
 end
 
 bash "Checkout QEMU SYSTEMC" do
