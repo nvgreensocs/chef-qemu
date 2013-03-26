@@ -45,7 +45,14 @@ bash "Update QEMU SYSTEMC" do
   for i in #{node[:prefix]}/bash.profile.d/*; do . $i; done
 
     cd #{node[:prefix]}/ModelLibrary/greensocs/qemu_sc.source
-    git pull origin new_system_c
+    if [ -d .git ] ; then
+      git pull origin master;
+      git pull origin new_system_c
+#      git reset --hard $version_qemu_systemc;
+    else echo "No updates possible"; 
+      fi
+
+
   EOH
   environment ({ 'http_proxy' => Chef::Config[:http_proxy] })
 end
