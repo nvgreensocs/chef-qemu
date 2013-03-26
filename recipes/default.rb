@@ -46,8 +46,8 @@ bash "Update QEMU SYSTEMC" do
 
     cd #{node[:prefix]}/ModelLibrary/greensocs/qemu_sc.source
     if [ -d .git ] ; then
-      git pull origin master;
       git pull origin new_system_c
+#      git pull origin master;
 #      git reset --hard $version_qemu_systemc;
     else echo "No updates possible"; 
       fi
