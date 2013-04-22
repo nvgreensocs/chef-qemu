@@ -40,23 +40,6 @@ bash "Checkout QEMU SYSTEMC" do
   environment ({ 'http_proxy' => Chef::Config[:http_proxy] })
 end
 
-bash "Update QEMU SYSTEMC" do
-  code <<-EOH
-  for i in #{node[:prefix]}/bash.profile.d/*; do . $i; done
-
-    cd #{node[:prefix]}/ModelLibrary/greensocs/qemu_sc.source
-    if [ -d .git ] ; then
-      git pull origin new_system_c
-#      git pull origin master;
-#      git reset --hard $version_qemu_systemc;
-    else echo "No updates possible"; 
-      fi
-
-
-  EOH
-  environment ({ 'http_proxy' => Chef::Config[:http_proxy] })
-end
-
 ruby_block "compile QEMU SystemC" do
   block do
      IO.popen(  <<-EOH
