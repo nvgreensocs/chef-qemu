@@ -34,7 +34,7 @@ bash "Checkout QEMU SYSTEMC" do
   for i in #{node[:prefix]}/bash.profile.d/*; do . $i; done
 
 # need to specify branch
-    git clone git://git.greensocs.com/qemu-sc.git -b new_system_c  #{node[:prefix]}/ModelLibrary/greensocs/qemu_sc.source
+    git clone git://git.greensocs.com/qemu-sc.git -b new_system_c_rebased  #{node[:prefix]}/ModelLibrary/greensocs/qemu_sc.source
   EOH
   creates "#{node[:prefix]}/ModelLibrary/greensocs/qemu_sc.source"
   environment ({ 'http_proxy' => Chef::Config[:http_proxy] })
